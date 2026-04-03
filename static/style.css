@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 40px;
+    background: rgba(0,0,0,0.3);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.container {
+    padding: 40px;
+    text-align: center;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    margin: 20px auto;
+    width: 350px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+input, select {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #00c6ff;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0072ff;
+    transform: scale(1.05);
+}
+
+.success {
+    color: #00ffae;
+}
+
+.danger {
+    color: #ff4d6d;
+}
+
+.table {
+    width: 70%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.flash {
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+}
+/* Risk Meter */
+
+.risk-container {
+    width: 100%;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.risk-bar {
+    height: 100%;
+    background: linear-gradient(to right, #00ffae, #ff4d6d);
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+/* Circular Risk Meter */
+
+.circle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--color) calc(var(--percentage) * 1%),
+        rgba(255,255,255,0.1) 0%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: fadeIn 1s ease-in;
+}
+
+.circle::before {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    background: #1e3c72;
+    border-radius: 50%;
+}
+
+.circle span {
+    position: relative;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}

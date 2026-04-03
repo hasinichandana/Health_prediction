@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">🤖 AI Health Assistant</h2>
+
+<div class="card p-4">
+
+    <input type="text" id="question" class="form-control mb-3"
+           placeholder="Ask health question...">
+
+    <button class="btn btn-primary w-100" onclick="askAI()">
+        Ask AI
+    </button>
+
+    <div id="response" class="mt-4"></div>
+
+</div>
+
+<script>
+function askAI() {
+    const question = document.getElementById("question").value;
+
+    fetch("/ask_ai", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "question=" + encodeURIComponent(question)
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("response").innerHTML =
+            "<div class='alert alert-info'>" + data.answer + "</div>";
+    });
+}
+</script>
+
+{% endblock %}

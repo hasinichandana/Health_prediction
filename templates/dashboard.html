@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard-title {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    border-radius: 18px;
+    padding: 25px;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+}
+
+.gradient-blue {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+}
+
+.gradient-green {
+    background: linear-gradient(135deg, #1cc88a, #13855c);
+}
+
+.gradient-red {
+    background: linear-gradient(135deg, #e74a3b, #b02a37);
+}
+
+.chart-card {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+
+
+<div class="container mt-4">
+
+    <div class="dashboard-title">
+        Welcome back, <span class="text-primary">{{ session.username }}</span>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="stat-card gradient-blue">
+                <h6>Total Predictions</h6>
+                <h2 class="mt-2">{{ total }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card gradient-green">
+                <h6>Average Risk</h6>
+                <h2 class="mt-2">{{ avg }}%</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card gradient-red">
+                <h6>High Risk Cases</h6>
+                <h2 class="mt-2">{{ high }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5 chart-card">
+        <h5 class="mb-4">Risk Trend Over Time</h5>
+        <canvas id="riskChart" height="100"></canvas>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+fetch("/history_data")
+.then(response => response.json())
+.then(data => {
+
+    new Chart(document.getElementById("riskChart"), {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [
+                {
+                    label: "Diabetes Risk",
+                    data: data.diabetes,
+                    borderColor: "#4e73df",
+                    backgroundColor: "rgba(78,115,223,0.1)",
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: "Heart Risk",
+                    data: data.heart,
+                    borderColor: "#e74a3b",
+                    backgroundColor: "rgba(231,74,59,0.1)",
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "black"
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+});
+</script>
+
+{% endblock %}

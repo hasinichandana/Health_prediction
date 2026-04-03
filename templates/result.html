@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.result-container {
+    text-align: center;
+}
+
+.result-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.circle-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 30px auto;
+}
+
+.circle-wrapper svg {
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.1);
+    stroke-width: 12;
+}
+
+.circle-progress {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.5s ease;
+}
+
+.circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.recommendation {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.08);
+}
+
+.btn-back {
+    margin-top: 25px;
+    border-radius: 30px;
+    padding: 8px 25px;
+}
+</style>
+
+<div class="result-container">
+<div class="result-card">
+
+<h2 class="mb-4">{{ disease }} Risk Analysis</h2>
+<h4 class="mt-3">
+    Risk Level:
+    {% if risk == "Low" %}
+        <span class="text-success">Low</span>
+    {% elif risk == "Medium" %}
+        <span class="text-warning">Medium</span>
+    {% else %}
+        <span class="text-danger">High</span>
+    {% endif %}
+</h4>
+<h5>
+{% if "No" in result or "Not" in result %}
+    <span class="text-success">{{ result }}</span>
+{% else %}
+    <span class="text-danger">{{ result }}</span>
+{% endif %}
+</h5>
+
+<div class="circle-wrapper">
+<svg width="180" height="180">
+    <circle class="circle-bg" cx="90" cy="90" r="70"></circle>
+    <circle id="progressCircle"
+            class="circle-progress"
+            cx="90" cy="90" r="70">
+    </circle>
+</svg>
+<div class="circle-text">{{ probability }}%</div>
+</div>
+
+<div class="recommendation">
+{% if probability < 40 %}
+    <p class="text-success">Low risk detected. Maintain healthy lifestyle habits.</p>
+{% elif probability < 70 %}
+    <p class="text-warning">Moderate risk. Consider medical consultation and preventive steps.</p>
+{% else %}
+    <p class="text-danger">High risk detected. Immediate medical attention recommended.</p>
+{% endif %}
+</div>
+
+<a href="/predict">
+<button class="btn btn-outline-light btn-back">Run Another Prediction</button>
+</a>
+<a href="/download_report">
+    <button class="btn btn-success btn-back">
+        Download Report 📄
+    </button>
+</a>
+
+</div>
+</div>
+
+<script>
+/* SAFE JS — no redeclare, no syntax error */
+
+
+const circle = document.getElementById("progressCircle");
+const radius = 70;
+const circumference = 2 * Math.PI * radius;
+
+circle.style.strokeDasharray = circumference;
+circle.style.strokeDashoffset =
+    circumference - (probabilityValue / 100) * circumference;
+
+if (probabilityValue < 40) {
+    circle.style.stroke = "#00ffae";
+} else if (probabilityValue < 70) {
+    circle.style.stroke = "#ffc107";
+} else {
+    circle.style.stroke = "#ff4d6d";
+}
+</script>
+
+{% endblock %}

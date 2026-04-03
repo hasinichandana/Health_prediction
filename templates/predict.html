@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.section-title {
+    font-weight: 700;
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.nav-pills .nav-link {
+    border-radius: 30px;
+    padding: 8px 25px;
+    font-weight: 500;
+    margin: 0 8px;
+    transition: 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.nav-pills .nav-link:hover {
+    transform: translateY(-2px);
+}
+
+.form-section {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.form-control {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: none;
+}
+
+.form-control::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.predict-btn {
+    border-radius: 30px;
+    padding: 10px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.predict-btn:hover {
+    transform: scale(1.05);
+}
+</style>
+
+
+<div class="section-title">
+    Medical Prediction Center
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#diabetes">
+            Diabetes Risk
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#heart">
+            Heart Disease Risk
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <!-- DIABETES TAB -->
+    <div class="tab-pane fade show active form-section" id="diabetes">
+        <form action="/predict_diabetes" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <input class="form-control mb-3" name="pregnancies" placeholder="Pregnancies" required>
+                    <input class="form-control mb-3" name="glucose" placeholder="Glucose Level" required>
+                    <input class="form-control mb-3" name="blood_pressure" placeholder="Blood Pressure" required>
+                    <input class="form-control mb-3" name="skin_thickness" placeholder="Skin Thickness" required>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control mb-3" name="insulin" placeholder="Insulin Level" required>
+                    <input class="form-control mb-3" name="bmi" placeholder="BMI" required>
+                    <input class="form-control mb-3" name="dpf" placeholder="Diabetes Pedigree Function" required>
+                    <input class="form-control mb-3" name="age" placeholder="Age" required>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100 predict-btn">
+                Analyze Diabetes Risk
+            </button>
+        </form>
+    </div>
+
+    <!-- HEART TAB -->
+    <div class="tab-pane fade form-section" id="heart">
+        <form action="/predict_heart" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+    <input class="form-control mb-3" name="age" placeholder="Age" required>
+    <input class="form-control mb-3" name="sex" placeholder="Sex (0=female,1=male)" required>
+    <input class="form-control mb-3" name="cp" placeholder="Chest Pain Type" required>
+    <input class="form-control mb-3" name="trestbps" placeholder="Resting BP" required>
+    <input class="form-control mb-3" name="chol" placeholder="Cholesterol" required>
+    <input class="form-control mb-3" name="fbs" placeholder="Fasting Blood Sugar" required>
+    <input class="form-control mb-3" name="restecg" placeholder="Rest ECG" required>
+</div>
+
+<div class="col-md-6">
+    <input class="form-control mb-3" name="thalach" placeholder="Max Heart Rate" required>
+    <input class="form-control mb-3" name="exang" placeholder="Exercise Angina" required>
+    <input class="form-control mb-3" name="oldpeak" placeholder="ST Depression" required>
+    <input class="form-control mb-3" name="slope" placeholder="Slope" required>
+    <input class="form-control mb-3" name="ca" placeholder="Major Vessels" required>
+    <input class="form-control mb-3" name="thal" placeholder="Thalassemia" required>
+</div>
+            </div>
+            <button class="btn btn-danger w-100 predict-btn">
+                Analyze Heart Risk
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS (needed for tabs) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

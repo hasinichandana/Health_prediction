@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.admin-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.stat-box {
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.bg-blue { background: linear-gradient(135deg, #4e73df, #224abe); }
+.bg-green { background: linear-gradient(135deg, #1cc88a, #13855c); }
+.bg-red { background: linear-gradient(135deg, #e74a3b, #b02a37); }
+
+.section-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.low { color: #00ffae; }
+.medium { color: #ffc107; }
+.high { color: #ff4d6d; }
+</style>
+
+<div class="admin-title">⚙️ Admin Dashboard</div>
+
+<!-- 🔥 TOP STATS -->
+<div class="row g-4">
+
+    <div class="col-md-4">
+        <div class="stat-box bg-blue">
+            <h6>Total Predictions</h6>
+            <h2>{{ total }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-box bg-green">
+            <h6>Total Users</h6>
+            <h2>{{ users|length }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-box bg-red">
+            <h6>High Risk Cases</h6>
+            <h2>
+                {{ records | selectattr("probability", "ge", 70) | list | length }}
+            </h2>
+        </div>
+    </div>
+
+</div>
+
+<!-- 👤 USER LIST (KEEPING YOUR OLD FEATURE) -->
+<div class="section-card">
+    <h4>👤 Registered Users</h4>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- 📊 PREDICTION TABLE -->
+<div class="section-card">
+
+<h4 class="mb-3">📊 All Predictions</h4>
+
+<table class="table table-borderless text-center align-middle">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Disease</th>
+            <th>Result</th>
+            <th>Risk</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in records %}
+        <tr>
+            <td>{{ r.username }}</td>
+            <td>{{ r.disease }}</td>
+            <td>{{ r.result }}</td>
+
+            <td>
+                {% if r.probability < 40 %}
+                    <span class="low">{{ r.probability }}% (Low)</span>
+                {% elif r.probability < 70 %}
+                    <span class="medium">{{ r.probability }}% (Medium)</span>
+                {% else %}
+                    <span class="high">{{ r.probability }}% (High)</span>
+                {% endif %}
+            </td>
+
+            <td>{{ r.created_at }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

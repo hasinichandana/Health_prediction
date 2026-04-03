@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.page-title {
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.history-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    overflow-x: auto;
+}
+
+.table {
+    color: white;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+
+.table tbody tr:hover {
+    background: rgba(255,255,255,0.08);
+    transform: scale(1.01);
+    transition: 0.3s ease;
+}
+
+.progress {
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+.low-risk {
+    background: linear-gradient(135deg, #00b09b, #96c93d) !important;
+}
+
+.medium-risk {
+    background: linear-gradient(135deg, #ffc107, #ff9800) !important;
+}
+
+.high-risk {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b) !important;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.8;
+}
+</style>
+
+<div class="page-title">Prediction History</div>
+
+<div class="history-card">
+{% if history %}
+<table class="table table-borderless align-middle text-center">
+    <thead>
+        <tr>
+            <th>Result</th>
+            <th>Risk Level</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for record in history %}
+        <tr>
+            <td>{{ record["result"] }}</td>
+
+            <td style="width:200px;">
+                <div class="mb-1 fw-bold">
+                    {{ record["probability"] }}%
+                </div>
+                <div class="progress" style="height:18px;">
+                    <div class="progress-bar {{ record['risk_class'] }}"
+                         role="progressbar"
+                         aria-valuenow="{{ record['probability'] }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                    </div>
+                </div>
+            </td>
+
+            <td>{{ record["created_at"] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+    <h5>No prediction history yet</h5>
+    <p>Run a prediction to see results appear here.</p>
+</div>
+{% endif %}
+</div>
+
+{% endblock %}
