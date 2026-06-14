@@ -201,29 +201,41 @@ http://127.0.0.1:5000
 
 ## 📸 Screenshots
 
-### Login Page
+### 🔐 Login Page 
 
-Add screenshot here.
+![Login Page](screenshots/login.png)
 
 ### Dashboard
 
-Add screenshot here.
+![Dashboard](screenshots/dashboard.png)
 
-### Diabetes Prediction
+### Admin Dashboard
 
-Add screenshot here.
+![Admin Dashboard](screenshots/admindashboard.png)
+
+### Diabetes Disese Prediction
+
+![Diabetes Prediction Page](screenshots/diabetespredict.png)
 
 ### Heart Disease Prediction
 
-Add screenshot here.
+![Heart Prediction Page](screenshots/heartpredict.png)
+
+### Diabetes Disease Analysis
+
+![Diabetes Analysis Page](screenshots/diabetesanalysis.png)
+
+### Heart Disease Analysis
+
+![Heart Analysis Page](screenshots/heartanalysis.png)
 
 ### AI Chat Assistant
 
-Add screenshot here.
+![ChatBot](screenshots/chathelp.png)
 
 ### PDF Report
 
-Add screenshot here.
+![PDF Report Page](screenshots/report.png)
 
 ---
 
