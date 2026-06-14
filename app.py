@@ -176,9 +176,11 @@ def register():
 
         try:
             conn = get_db()
+            role = "admin" if username.lower() == "admin" else "patient"
+
             conn.execute(
                 "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-                (username, hashed_password, "patient")
+                (username, hashed_password, role)
             )
             conn.commit()
             conn.close()
